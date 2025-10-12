@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Diwali Countdown</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #1a1f38;
+      --accent: #ffb703;
+      --muted: #c4c4c4;
+      --highlight: #ff4081;
+      --secondary: #00e5ff;
+      --glow: rgba(255, 255, 255, 0.1);
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Poppins', system-ui, sans-serif;
+      background: radial-gradient(ellipse at top left, #1c1e3c, #0a0f1c 70%);
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: linear-gradient(145deg, #1f223c, #161a2e);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid var(--glow);
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 12px;
+      color: var(--highlight);
+      letter-spacing: 1.2px;
+      text-shadow: 0 2px 10px var(--highlight);
+    }
+
+    .lead {
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .countdown {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .timebox {
+      background: linear-gradient(180deg, #ff6d00, #ffa000);
+      color: #000;
+      padding: 16px 22px;
+      border-radius: 12px;
+      min-width: 90px;
+      box-shadow: 0 10px 24px rgba(255, 193, 7, 0.3);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    .num {
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .label {
+      font-size: 13px;
+      text-transform: uppercase;
+      color: #222;
+      margin-top: 6px;
+      letter-spacing: 1px;
+    }
+
+    .celebrate {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 12px;
+    }
+
+    .celebrate.show {
+      display: flex;
+    }
+
+    #fireworks {
+      width: 100%;
+      height: 360px;
+      background: radial-gradient(circle at center, #090d1c, #000000);
+      border-radius: 12px;
+      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.04);
+    }
+
+    .message {
+      font-size: 42px;
+      color: #ffe600;
+      text-shadow: 0 6px 24px rgba(255, 235, 59, 0.3), 0 2px 6px rgba(0, 0, 0, 0.6);
+      font-weight: 800;
+    }
+
+    .next-btn {
+      background: linear-gradient(to right, #ff4081, #ffb300);
+      border: none;
+      color: #000;
+      padding: 12px 28px;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(255, 64, 129, 0.3);
+      transition: all 0.25s ease-in-out;
+    }
+
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255, 193, 7, 0.4);
+    }
+
+    .small {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .num {
+        font-size: 24px;
+      }
+
+      .message {
+        font-size: 32px;
+      }
+
+      #fireworks {
+        height: 260px;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 16px rgba(255, 193, 7, 0.3);
+      }
+      50% {
+        transform: scale(1.04);
+        box-shadow: 0 0 24px rgba(255, 193, 7, 0.5);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" role="main">
+    <h1>Diwali Countdown</h1>
+    <p class="lead">Counting down to October 20 at 12:00 AM (your local time).</p>
+
+    <!-- Countdown view -->
+    <div id="countdownView">
+      <div id="cd" class="countdown" aria-live="polite">
+        <div class="timebox">
+          <div id="days" class="num">0</div>
+          <div class="label">Days</div>
+        </div>
+        <div class="timebox">
+          <div id="hours" class="num">0</div>
+          <div class="label">Hours</div>
+        </div>
+        <div class="timebox">
+          <div id="minutes" class="num">0</div>
+          <div class="label">Minutes</div>
+        </div>
+        <div class="timebox">
+          <div id="seconds" class="num">0</div>
+          <div class="label">Seconds</div>
+        </div>
+      </div>
+      <div class="small">When the countdown ends, enjoy crackers and a greeting 🎆</div>
+    </div>
+
+    <!-- Celebration view -->
+    <div id="celebrateView" class="celebrate" aria-hidden="true">
+      <canvas id="fireworks" aria-hidden="true"></canvas>
+      <div class="message">Happy Diwali</div>
+      <button class="next-btn" onclick="goNext()">Next page</button>
+    </div>
+  </div>
+
+  <script>
+    // Compute target date: October 20 at 00:00 local time
+    function nextOct20Midnight() {
+      const now = new Date();
+      const year = now.getFullYear();
+      return new Date(year, 9, 12, 14, 2, 0, 0); // October = 9
+    }
+
+    const target = nextOct20Midnight();
+
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minutesEl = document.getElementById('minutes');
+    const secondsEl = document.getElementById('seconds');
+    const countdownView = document.getElementById('countdownView');
+    const celebrateView = document.getElementById('celebrateView');
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = target - now;
+      if (diff <= 0) {
+        showCelebration();
+        return;
+      }
+      const sec = Math.floor(diff / 1000) % 60;
+      const min = Math.floor(diff / (1000 * 60)) % 60;
+      const hrs = Math.floor(diff / (1000 * 60 * 60)) % 24;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      daysEl.textContent = String(days);
+      hoursEl.textContent = String(hrs).padStart(2, '0');
+      minutesEl.textContent = String(min).padStart(2, '0');
+      secondsEl.textContent = String(sec).padStart(2, '0');
+    }
+
+    // Fireworks
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    let cw, ch;
+
+    function resizeCanvas() {
+      cw = canvas.width = canvas.clientWidth * devicePixelRatio;
+      ch = canvas.height = canvas.clientHeight * devicePixelRatio;
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+    }
+
+    window.addEventListener('resize', () => {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      resizeCanvas();
+    });
+
+    let particles = [];
+    let rockets = [];
+    let lastTick = 0;
+
+    function random(a, b) { return a + Math.random() * (b - a); }
+    function hueToRgb(h) { return `hsl(${h}, 90%, 60%)`; }
+
+    class Rocket {
+      constructor(x, y, vx, vy, hue) {
+        this.x = x; this.y = y; this.vx = vx; this.vy = vy; this.hue = hue;
+        this.age = 0; this.targetAge = random(60, 110);
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.12;
+        this.vx *= 0.998;
+        this.age++;
+        if (this.age >= this.targetAge) {
+          explode(this.x, this.y, this.hue);
+          return false;
+        }
+        particles.push(new Particle(this.x, this.y, this.vx * 0.2, this.vy * 0.2, this.hue, 20, true));
+        return true;
+      }
+    }
+
+    class Particle {
+      constructor(x, y, vx, vy, hue, life, trail = false) {
+        this.x = x; this.y = y; this.vx = vx; this.vy = vy; this.hue = hue;
+        this.life = life; this.age = 0; this.trail = trail;
+        this.size = trail ? 1.2 : random(1.8, 3.6);
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.06;
+        this.vx *= 0.995;
+        this.vy *= 0.995;
+        this.age++;
+        return this.age < this.life;
+      }
+      draw(ctx) {
+        const t = this.age / this.life;
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.beginPath();
+        const r = this.size * (1 + (1 - t) * 1.8);
+        ctx.fillStyle = hueToRgb(this.hue);
+        ctx.globalAlpha = Math.max(0, 1 - t);
+        ctx.shadowColor = hueToRgb(this.hue);
+        ctx.shadowBlur = 12;
+        ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function explode(x, y, hue) {
+      const count = Math.floor(random(24, 44));
+      for (let i = 0; i < count; i++) {
+        const ang = Math.random() * Math.PI * 2;
+        const speed = random(1.8, 6.8);
+        const vx = Math.cos(ang) * speed;
+        const vy = Math.sin(ang) * speed;
+        const life = Math.floor(random(50, 120));
+        particles.push(new Particle(x, y, vx, vy, hue, life, false));
+      }
+      for (let i = 0; i < 12; i++) {
+        particles.push(new Particle(x, y, random(-2, 2), random(-3, 1), hue + random(-30, 30), Math.floor(random(30, 70)), true));
+      }
+    }
+
+    function launchRandomRocket() {
+      const x = random(60, canvas.clientWidth - 60);
+      const y = canvas.clientHeight + 10;
+      const vx = random(-1.2, 1.2);
+      const vy = random(-7.6, -10.6);
+      const hue = random(0, 360);
+      rockets.push(new Rocket(x, y, vx, vy, hue));
+    }
+
+    let animRunning = false;
+
+    function animate(t) {
+      if (!animRunning) return;
+      if (!lastTick) lastTick = t;
+      lastTick = t;
+
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = 'rgba(6,9,14,0.25)';
+      ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+      if (Math.random() < 0.08) launchRandomRocket();
+      if (Math.random() < 0.02) launchRandomRocket();
+
+      for (let i = rockets.length - 1; i >= 0; i--) {
+        if (!rockets[i].update()) rockets.splice(i, 1);
+      }
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        if (!particles[i].update()) {
+          particles.splice(i, 1);
+          continue;
+        }
+        particles[i].draw(ctx);
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    function startFireworks() {
+      resizeCanvas();
+      animRunning = true;
+      lastTick = 0;
+      for (let i = 0; i < 6; i++) launchRandomRocket();
+      requestAnimationFrame(animate);
+    }
+
+    function showCelebration() {
+      countdownView.style.display = 'none';
+      celebrateView.classList.add('show');
+      celebrateView.setAttribute('aria-hidden', 'false');
+      startFireworks();
+    }
+
+    function goNext() {
+      window.location.href = 'next.html';
+    }
+
+    updateCountdown();
+    const interval = setInterval(() => {
+      updateCountdown();
+      if (celebrateView.classList.contains('show')) {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    if (new Date() >= target) {
+      showCelebration();
+    }
+  </script>
+</body>
+</html>
