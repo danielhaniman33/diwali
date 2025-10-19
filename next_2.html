@@ -93,7 +93,7 @@
     const wishText = document.getElementById("wishText");
     const overlayText = document.getElementById("overlayText");
 
-    if (wish && wish.trim() !== "") {
+    if (wish && wish.trim() !== " ") {
       wishText.textContent = wish;
       overlayText.textContent = "🎇 it will happen soon, Happy Diwali 🎇";
     } else {
