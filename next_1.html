@@ -1,147 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Virtual Diwali Celebration</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Your Diwali Wish ✨</title>
   <style>
     body {
       margin: 0;
       padding: 0;
       height: 100vh;
-      overflow: hidden;
-      background: radial-gradient(circle at bottom, #0b0c10 30%, #1a1a2e 100%);
-      color: #fff;
-      font-family: "Poppins", sans-serif;
-      text-align: center;
-      position: relative;
+      background: radial-gradient(circle at top, #fff7e6 0%, #ffd580 100%);
       display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      padding: 30px 25px;
+      text-align: center;
+      width: 90%;
+      max-width: 420px;
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      color: #f59e0b;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 6px 0;
+      font-size: 15px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #f59e0b;
+      box-shadow: 0 0 5px #f59e0b55;
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 12px 22px;
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .animation {
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
     }
 
-    .message {
-      font-size: 1.2rem;
-      width: 90%;
-      max-width: 600px;
-      color: #ffeaa7;
-      text-shadow: 0 0 10px #f1c40f;
-      animation: fadeIn 2s ease;
-      z-index: 2;
-    }
-
-    /* ===== Footer fixed at bottom ===== */
-    .footer {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      font-size: 1.1rem;
-      color: #ffd700;
-      text-shadow: 0 0 15px #ffb700;
-      font-weight: 600;
-      animation: glow 2s infinite alternate;
-      z-index: 2;
-      width: 90%;
-      max-width: 600px;
-      line-height: 1.6;
-    }
-
-    /* ===== Firework particle ===== */
-    .particle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
+    .gif {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
       border-radius: 50%;
-      pointer-events: none;
-      animation: explode 0.8s ease-out forwards;
-      z-index: 1;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
     }
 
-    @keyframes explode {
-      from {
-        transform: scale(1);
-        opacity: 1;
-      }
-      to {
-        transform: scale(0);
-        opacity: 0;
-      }
+    .sent {
+      font-size: 20px;
+      color: #16a34a;
+      animation: fadeIn 1s ease forwards;
     }
 
-    /* ===== Animations ===== */
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #ffd700, 0 0 20px #ffa500; }
-      to { text-shadow: 0 0 25px #fffacd, 0 0 40px #ffd700; }
+    /* Floating diya sparkles */
+    .spark {
+      position: absolute;
+      background: radial-gradient(circle, #ffd580, transparent 70%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: float 5s linear infinite;
     }
 
-    /* ===== Responsive fixes ===== */
-    @media (max-height: 600px) {
-      .message { font-size: 1rem; margin-top: 30px; }
-      .footer { font-size: 0.95rem; bottom: 10px; }
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 0.8; }
+      100% { transform: translateY(-120vh) scale(0.5); opacity: 0; }
     }
   </style>
 </head>
 <body>
-  <div class="message">
-    🎆 The last page wants you to celebrate a Virtual Diwali!  
-    <br />Touch or click anywhere to light up the spark! 🎇
+  <div class="card" id="formCard">
+    <h1>💫 Diwali Wish</h1>
+    <p>Write what you truly wish for... (consider this a virtual manifestation) ✨</p>
+    <textarea id="wish" placeholder="Write your wish here..." rows="4"></textarea>
+    <button id="sendBtn">Send Wish</button>
   </div>
 
-  <div class="footer">
-    💫 Happy Diwali Vijayalakshmi 💫 <br />
-    Stay blessed and stay happy forever 🌟
+  <div class="animation" id="anim">
+    <iframe src="https://giphy.com/embed/8cCtamBh5HtNC6f8iq" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    <div class="sent" id="sentText">manifesting your wish...</div>
   </div>
 
   <script>
-    // Generate a firework burst at click or touch
-    function createFirework(x, y) {
-      const colors = ['#ffdd00', '#ff3366', '#00ffff', '#ff9933', '#66ff66', '#ff66cc'];
-      const numParticles = 30;
+  // Floating sparkles
+  for (let i = 0; i < 25; i++) {
+    const spark = document.createElement('div');
+    spark.className = 'spark';
+    spark.style.left = Math.random() * 100 + '%';
+    spark.style.top = '100%';
+    spark.style.animationDelay = (Math.random() * 5) + 's';
+    spark.style.animationDuration = (4 + Math.random() * 3) + 's';
+    document.body.appendChild(spark);
+  }
 
-      for (let i = 0; i < numParticles; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        document.body.appendChild(particle);
+  const formCard = document.getElementById('formCard');
+  const anim = document.getElementById('anim');
+  const sendBtn = document.getElementById('sendBtn');
+  const sentText = document.getElementById('sentText');
 
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.background = color;
+  sendBtn.addEventListener('click', () => {
+    const wish = document.getElementById('wish').value.trim();
+    if (!wish) return alert("Please enter your wish!");
 
-        const angle = (Math.PI * 2 * i) / numParticles;
-        const radius = Math.random() * 80 + 20;
-        const dx = Math.cos(angle) * radius;
-        const dy = Math.sin(angle) * radius;
+    formCard.style.display = 'none';
+    anim.style.display = 'flex';
+    sentText.textContent = '✨ Manifesting your wish... ✨';
 
-        particle.style.left = `${x}px`;
-        particle.style.top = `${y}px`;
-
-        particle.animate([
-          { transform: `translate(0, 0)`, opacity: 1 },
-          { transform: `translate(${dx}px, ${dy}px)`, opacity: 0 }
-        ], {
-          duration: 1000 + Math.random() * 500,
-          easing: 'ease-out'
-        });
-
-        setTimeout(() => particle.remove(), 1200);
-      }
-    }
-
-    document.addEventListener('click', (e) => {
-      createFirework(e.clientX, e.clientY);
-    });
-
-    document.addEventListener('touchstart', (e) => {
-      const touch = e.touches[0];
-      createFirework(touch.clientX, touch.clientY);
-    });
+    setTimeout(() => {
+      sessionStorage.setItem("userWish", wish);
+      window.location.href = "next_2.html";
+    }, 2500);
+  });
   </script>
+
 </body>
 </html>
