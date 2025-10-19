@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Diwali Celebration</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at bottom, #0b0c10 30%, #1a1a2e 100%);
+      color: #fff;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    /* ===== Texts ===== */
+    .message {
+      font-size: 1.3rem;
+      margin-top: 50px;
+      width: 90%;
+      max-width: 600px;
+      color: #ffeaa7;
+      text-shadow: 0 0 10px #f1c40f;
+      animation: fadeIn 2s ease;
+    }
+
+    .footer {
+      font-size: 1.2rem;
+      color: #ffd700;
+      margin-bottom: 40px;
+      text-shadow: 0 0 15px #ffb700;
+      font-weight: 600;
+      animation: glow 2s infinite alternate;
+    }
+
+    /* ===== Firework particle ===== */
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: explode 0.8s ease-out forwards;
+    }
+
+    @keyframes explode {
+      from {
+        transform: scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: scale(0);
+        opacity: 0;
+      }
+    }
+
+    /* ===== Animations ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ffd700, 0 0 20px #ffa500; }
+      to { text-shadow: 0 0 25px #fffacd, 0 0 40px #ffd700; }
+    }
+  </style>
+</head>
+<body>
+  <div class="message">
+    🎆 The last page wants you to celebrate a Virtual Diwali!  
+    <br />Touch or click anywhere to light up the spark! 🎇
+  </div>
+
+  <div class="footer">
+    💫 Happy Diwali Vijayalakshmi 💫 <br />
+    Stay blessed and stay happy forever 🌟
+  </div>
+
+  <script>
+    // Generate a firework burst at click or touch
+    function createFirework(x, y) {
+      const colors = ['#ffdd00', '#ff3366', '#00ffff', '#ff9933', '#66ff66', '#ff66cc'];
+      const numParticles = 30;
+
+      for (let i = 0; i < numParticles; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        document.body.appendChild(particle);
+
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.background = color;
+
+        const angle = (Math.PI * 2 * i) / numParticles;
+        const radius = Math.random() * 80 + 20;
+        const dx = Math.cos(angle) * radius;
+        const dy = Math.sin(angle) * radius;
+
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+
+        particle.animate([
+          { transform: `translate(0, 0)`, opacity: 1 },
+          { transform: `translate(${dx}px, ${dy}px)`, opacity: 0 }
+        ], {
+          duration: 1000 + Math.random() * 500,
+          easing: 'ease-out'
+        });
+
+        setTimeout(() => particle.remove(), 1200);
+      }
+    }
+
+    // Event listeners for both click and touch
+    document.addEventListener('click', (e) => {
+      createFirework(e.clientX, e.clientY);
+    });
+
+    document.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      createFirework(touch.clientX, touch.clientY);
+    });
+  </script>
+</body>
+</html>
