@@ -171,9 +171,8 @@
 <body>
   <div class="container" role="main">
     <h1>Diwali Countdown</h1>
-    <p class="lead">Counting down to October 20 at 12:00 AM (your local time).</p>
+    <p class="lead">Counting down to October 20 at 12:00 AM.</p>
 
-    <!-- Countdown view -->
     <div id="countdownView">
       <div id="cd" class="countdown" aria-live="polite">
         <div class="timebox">
@@ -196,7 +195,6 @@
       <div class="small">When the countdown ends, enjoy crackers and a greeting 🎆</div>
     </div>
 
-    <!-- Celebration view -->
     <div id="celebrateView" class="celebrate" aria-hidden="true">
       <canvas id="fireworks" aria-hidden="true"></canvas>
       <div class="message">Happy Diwali</div>
@@ -205,11 +203,10 @@
   </div>
 
   <script>
-    // Compute target date: October 20 at 00:00 local time
     function nextOct20Midnight() {
       const now = new Date();
       const year = now.getFullYear();
-      return new Date(year, 9, 12, 14, 2, 0, 0); // October = 9
+      return new Date(year, 9, 20, 0, 0, 0, 0);
     }
 
     const target = nextOct20Midnight();
@@ -238,7 +235,6 @@
       secondsEl.textContent = String(sec).padStart(2, '0');
     }
 
-    // Fireworks
     const canvas = document.getElementById('fireworks');
     const ctx = canvas.getContext('2d');
     let cw, ch;
@@ -398,3 +394,4 @@
   </script>
 </body>
 </html>
+
